@@ -1,0 +1,26 @@
+apiVersion: networking.k8s.io/v1
+kind: Ingress
+metadata:
+  name: grafana-ingress
+  namespace: prometheus  # Change the namespace to match the service
+  annotations:
+    nginx.ingress.kubernetes.io/rewrite-target: /
+    nginx.ingress.kubernetes.io/ssl-redirect: "true"
+    cert-manager.io/cluster-issuer: letsencrypt-prod  # This should match the name of your ClusterIssuer
+spec:
+  ingressClassName: nginx  # Add this line
+  tls:
+  - hosts:
+      - telemetry.devopsxpertz.com  # The domain you want to use for Grafana
+    secretName: grafana-tls  # Name of the TLS secret to store the certificate
+  rules:
+  - host: telemetry.devopsxpertz.com  # The domain for your Grafana service
+    http:
+      paths:
+      - path: /
+        pathType: Prefix
+        backend:
+          service:
+            name: stable-grafana  # The name of your Grafana service (ClusterIP)
+            port:
+              number: 80  # The port that Grafana is running on (inside the cluster)

@@ -1,0 +1,18 @@
+apiVersion: v1
+kind: ConfigMap
+metadata:
+  name: prometheus-alert-rules
+  namespace: prometheus
+data:
+  node-down-rules.yaml: |
+    groups:
+    - name: node-down-alerts
+      rules:
+      - alert: NodeDown
+        expr: up == 0
+        for: 2m
+        labels:
+          severity: critical
+        annotations:
+          summary: "Instance {{ $labels.instance }} is down"
+          description: "Instance {{ $labels.instance }} of job {{ $labels.job }} has been down for more than 2 minutes."
