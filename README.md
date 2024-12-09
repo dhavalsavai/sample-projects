@@ -1,3 +1,6 @@
+**Follow below for Deploy Prometheus & Grafana in AWS EKS **
+Link: https://www.coachdevops.com/2022/05/how-to-setup-monitoring-on-kubernetes.html
+
 **Install Nginx Ingress Controller**
 
 - helm repo add ingress-nginx https://kubernetes.github.io/ingress-nginx
